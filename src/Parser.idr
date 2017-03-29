@@ -58,7 +58,7 @@ data Number : Char -> Type where
 |||
 ||| Always starts with a letter and may contain an arbitrary number of
 ||| alphanumeric characters afterwards.
-data Symbol : String -> Type where
+data Symbol : Type where
   MkSymbol : ( s : String ) ->
              { auto nonEmpty : NonEmpty (unpack s) } ->
              { auto headPrf : Elem (head (unpack s)) Alphabet } ->
@@ -67,4 +67,21 @@ data Symbol : String -> Type where
              -- slower.
              -- https://github.com/idris-lang/Idris-dev/blob/master/libs/base/Data/Vect/Quantifiers.idr#L70
              -- { auto tailPrf : All ?isAlphanumeric (fromList (tail (unpack s))) } ->
-             Symbol s
+             Symbol
+
+data SExpr : Type where
+  MkName  : String -> SExpr
+  MkSExpr : List SExpr -> SExpr
+
+{-
+  Parse Combinators
+-}
+
+parseSymbol : Parser SExpr
+parseSymbol = lexeme (letter >>= \x => commitTo $ do {
+                xs <- many alphaNum
+                pure (MkName (pack (x :: xs)))
+              })
+
+parseExpr : Parser SExpr
+parseExpr = MkSExpr <$> parens (many parseSymbol)
