@@ -34,9 +34,9 @@ Alphanumeric = Alphabet ++ Digits
 ||| @cs A list of possibly alphanumeric characters
 total allAlphanumeric : (cs : List Char) -> Type
 allAlphanumeric [] = Elem True [True]
-allAlphanumeric (c :: cs) = case isElem c Alphanumeric of
+allAlphanumeric (c :: cs) = case c `isElem` Alphanumeric of
                                 Yes prf => allAlphanumeric cs
-                                No contra => Elem False [True]
+                                No contra => Elem c Alphanumeric
 
 {-
   Types
@@ -63,6 +63,8 @@ data Symbol : String -> Type where
              { auto nonEmpty : NonEmpty (unpack s) } ->
              { auto headPrf : Elem (head (unpack s)) Alphabet } ->
              { auto tailPrf : allAlphanumeric (tail (unpack s)) } ->
+             -- Considered using Data.Vect.Quantifiers.All but it was fairly
+             -- slower.
+             -- https://github.com/idris-lang/Idris-dev/blob/master/libs/base/Data/Vect/Quantifiers.idr#L70
              -- { auto tailPrf : All ?isAlphanumeric (fromList (tail (unpack s))) } ->
              Symbol s
-
