@@ -1,7 +1,15 @@
 package Libra
 
-sourceloc  = git://git@github.com:ostera/libra.git
+author = Leandro Ostera <leandro@ostera.io>
+brief = "A Lisp 1.5 Parser"
 bugtracker = https://github.com/ostera/libra/issues
+homepage = https://github.com/ostera/libra
+license = BSD 3-Clause
+readme = ./README.md
+sourceloc  = git://git@github.com:ostera/libra.git
+
+main = Libra.Main
+executable = "libra-cli"
 
 pkgs = effects
      , lightyear
