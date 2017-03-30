@@ -1,0 +1,12 @@
+package Libra
+
+sourceloc  = git://git@github.com:ostera/libra.git
+bugtracker = https://github.com/ostera/libra/issues
+
+pkgs = effects
+     , lightyear
+
+modules = Libra
+        , Libra.Constants
+        , Libra.Data
+        , Libra.Parser
