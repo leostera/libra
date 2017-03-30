@@ -10,6 +10,8 @@
 
 Libra is a training exercise. It's not intended to be a production Lisp runtime.
 
+### Goals
+
 Through it, my aim is to learn more about dependent-types, compilers, and
 languages in general.
 
