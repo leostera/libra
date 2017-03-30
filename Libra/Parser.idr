@@ -84,8 +84,9 @@ data SExpr : Type where
 partial parseName : Parser SExpr
 parseName = lexeme (letter >>= \x => commitTo $ do {
                 xs <- many alphaNum
-                pure (MkName (pack (x :: xs)))
-              })
+                let name = pack (x :: xs)
+                pure (MkName name)
+            })
 
 partial parseExpr : Parser SExpr
 parseExpr = parseName <|>| ( MkSExpr <$> parens (many parseExpr) )
