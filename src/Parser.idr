@@ -6,6 +6,8 @@ import public Lightyear
 import public Lightyear.Char
 import public Lightyear.Strings
 
+%default total
+
 {-
   Constants
 -}
@@ -70,6 +72,8 @@ data Symbol : Type where
              Symbol
 
 data SExpr : Type where
+  -- temporary, figure out how to make parseSymbol _guarantee_ a call to
+  -- MkName (MkSymbol name) -- with a non-empty name
   MkName  : String -> SExpr
   MkSExpr : List SExpr -> SExpr
 
@@ -77,11 +81,11 @@ data SExpr : Type where
   Parse Combinators
 -}
 
-parseSymbol : Parser SExpr
-parseSymbol = lexeme (letter >>= \x => commitTo $ do {
+partial parseName : Parser SExpr
+parseName = lexeme (letter >>= \x => commitTo $ do {
                 xs <- many alphaNum
                 pure (MkName (pack (x :: xs)))
               })
 
-parseExpr : Parser SExpr
-parseExpr = MkSExpr <$> parens (many parseSymbol)
+partial parseExpr : Parser SExpr
+parseExpr = parseName <|>| ( MkSExpr <$> parens (many parseExpr) )
