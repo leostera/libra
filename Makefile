@@ -14,7 +14,7 @@ install: build
 test: build
 	$(IDRIS) --testpkg $(PACKAGE)
 
-build: Libra/*.idr Test/*.idr TAP.idr
+build: Libra/*.idr Test/*.idr
 	$(IDRIS) --build $(PACKAGE)
 
 clean:
