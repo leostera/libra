@@ -7,6 +7,7 @@ homepage = https://github.com/ostera/libra
 license = BSD 3-Clause
 readme = ./README.md
 sourceloc  = git://git@github.com:ostera/libra.git
+version = 0.1
 
 main = Libra.Main
 executable = "libra-cli"
