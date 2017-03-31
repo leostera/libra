@@ -1,11 +1,20 @@
+.PHONY: test clean install
+
 PACKAGE = Libra.ipkg
 IDRIS = idris
 
 all: install
 
-install: build
+repl:
+	$(IDRIS) -p lightyear Libra.idr
 
-build: Libra/*.idr
+install: build
+	$(IDRIS) --install $(PACKAGE)
+
+test: build
+	$(IDRIS) --testpkg $(PACKAGE)
+
+build: Libra/*.idr Test/*.idr TAP.idr
 	$(IDRIS) --build $(PACKAGE)
 
 clean:
