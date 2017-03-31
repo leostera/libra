@@ -56,3 +56,16 @@ data SExpr : Type where
   -- MkName (MkSymbol name) -- with a non-empty name
   MkName  : String -> SExpr
   MkSExpr : List SExpr -> SExpr
+
+Eq SExpr where
+    (==) (MkName x) (MkName y) = (x == y)
+    (==) (MkSExpr (x :: xs)) (MkSExpr (y :: ys)) = (x == y) && (xs == ys)
+    (==) _ _ = False
+
+partial toString : SExpr -> String
+toString (MkName x) = x
+toString (MkSExpr []) = "()"
+toString (MkSExpr xs) = let
+    body = (foldr (++) "" (intersperse " " (map toString xs)))
+  in
+    "(" ++ body ++ ")"
