@@ -9,13 +9,14 @@ readme = ./README.md
 sourceloc  = git://git@github.com:ostera/libra.git
 version = 0.1
 
-main = Libra.Main
-executable = "libra-cli"
-
 pkgs = effects
      , lightyear
+     , TAP
 
 modules = Libra
         , Libra.Constants
         , Libra.Data
         , Libra.Parser
+        , Test.Parser
+
+tests = Libra.Test.Parser.parserTests
