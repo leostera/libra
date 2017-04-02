@@ -6,16 +6,16 @@ IDRIS = idris
 all: install
 
 repl:
-	$(IDRIS) -p lightyear Libra.idr
+	$(IDRIS) -p lightyear -p TAP Libra.idr
 
 install: build
-	$(IDRIS) --install $(PACKAGE)
+	@$(IDRIS) --install $(PACKAGE)
 
 test: build
-	$(IDRIS) --testpkg $(PACKAGE)
+	@$(IDRIS) --testpkg $(PACKAGE)
 
 build: Libra/*.idr Test/*.idr
-	$(IDRIS) --build $(PACKAGE)
+	@$(IDRIS) --build $(PACKAGE)
 
 clean:
-	$(IDRIS) --clean $(PACKAGE)
+	@$(IDRIS) --clean $(PACKAGE)

@@ -17,7 +17,7 @@ languages in general.
 
 I'd like it to be able to:
 
-- [ ] Parse Lisp 1.5 syntax
+- [X] Parse Lisp 1.5 syntax
 - [ ] Perform useful syntax checking
 - [ ] Evaluate a Lisp program
 - [ ] Expose itself as a CLI tool

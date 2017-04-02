@@ -1,7 +1,12 @@
 module Main
 
-import Libra.Parser
+import Libra.CLI
 
-main : Eff () [STDIO, SYSTEM]
-main = do [prog, arg] <- getArgs
-          putStrLn $ "Arguments are" ++ arg
+import Effects
+-- Remember to import all the kinds of Effect's you're using:
+import Effect.StdIO
+import Effect.System
+import Effect.File
+
+main : IO ()
+main = run cli

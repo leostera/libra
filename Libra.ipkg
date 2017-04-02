@@ -5,8 +5,9 @@ brief = "A Lisp 1.5 Parser"
 bugtracker = https://github.com/ostera/libra/issues
 homepage = https://github.com/ostera/libra
 license = BSD 3-Clause
+opts = "--quiet"
 readme = ./README.md
-sourceloc  = git://git@github.com:ostera/libra.git
+sourceloc = git://git@github.com:ostera/libra.git
 version = 0.1
 
 pkgs = effects
