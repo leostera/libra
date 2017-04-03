@@ -9,8 +9,8 @@ import TAP
 
 %access export  -- to make the test functions visible
 
-testName : () -> IO Bool
-testName _ = do
+testName : Lazy (IO Bool)
+testName = do
   let fixture = "hello"
   let expected = MkName "hello"
   let result = out (execParserT parseExpr fixture)
@@ -18,8 +18,8 @@ testName _ = do
        Right actual => pure True
        Left err => pure False
 
-testBadName : () -> IO Bool
-testBadName _ = do
+testBadName : Lazy (IO Bool)
+testBadName = do
   let fixture = "1hello"
   let expected = MkName "hello"
   let result = out (execParserT parseExpr fixture)
@@ -29,14 +29,9 @@ testBadName _ = do
 
 data What = Run | Name
 
-testExpression : () -> IO Bool
-testExpression _ = do
-  let fixture = """(
-
-  (LABEL EQUAL (LAMBDA (X Y) (COND ((ATOM X) (COND ((ATOM Y) (EQ X Y)) ((QUOTE T) (QUOTE F)))) ((EQUAL (CAR X) (CAR Y)) (EQUAL (CDR X) (CDR Y))) ((QUOTE T) (QUOTE F)))) (LAMBDA (X Y) (COND ((ATOM X) (COND ((ATOM Y) (EQ X Y)) ((QUOTE T) (QUOTE F)))) ((EQUAL (CAR X) (CAR Y)) (EQUAL (CDR X) (CDR Y))) ((QUOTE T) (QUOTE F))))(LAMBDA (X Y) (COND ((ATOM X) (COND ((ATOM Y) (EQ X Y)) ((QUOTE T) (QUOTE F)))) ((EQUAL (CAR X) (CAR Y)) (EQUAL (CDR X) (CDR Y))) ((QUOTE T) (QUOTE F)))))
-
-  )
-  """
+testExpression : Lazy (IO Bool)
+testExpression = do
+  let fixture = "(LABEL EQUAL (LAMBDA (X Y) (COND ((ATOM X) (COND ((ATOM Y) (EQ X Y)) ((QUOTE T) (QUOTE F)))) ((EQUAL (CAR X) (CAR Y)) (EQUAL (CDR X) (CDR Y))) ((QUOTE T) (QUOTE F)))) (LAMBDA (X Y) (COND ((ATOM X) (COND ((ATOM Y) (EQ X Y)) ((QUOTE T) (QUOTE F)))) ((EQUAL (CAR X) (CAR Y)) (EQUAL (CDR X) (CDR Y))) ((QUOTE T) (QUOTE F))))(LAMBDA (X Y) (COND ((ATOM X) (COND ((ATOM Y) (EQ X Y)) ((QUOTE T) (QUOTE F)))) ((EQUAL (CAR X) (CAR Y)) (EQUAL (CDR X) (CDR Y))) ((QUOTE T) (QUOTE F)))))"
   let expected = (MkSExpr [MkName "hello", (MkSExpr [MkName "world"])])
   let result = out (execParserT parseExpr fixture)
   case result of
@@ -45,7 +40,7 @@ testExpression _ = do
 
 parserTests : IO ()
 parserTests = plan "Parser Tests" [
-  testName,
-  testBadName,
-  testExpression
+  Delay (testName),
+  Delay (testBadName),
+  Delay (testExpression)
 ]
